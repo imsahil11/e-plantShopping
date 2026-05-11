@@ -6,6 +6,7 @@ import { categoryOrder, plantData } from '../data/plants'
 function ProductList() {
   const dispatch = useDispatch()
   const cartItems = useSelector((state) => state.cart.items)
+  const totalItems = cartItems.reduce((sum, item) => sum + item.quantity, 0)
 
   const handleAdd = (plant) => {
     dispatch(addItem(plant))
@@ -18,7 +19,26 @@ function ProductList() {
     <div>
       <Navbar />
       <main className="page container">
-        <h2 className="page-title">Plant Shop</h2>
+        <div className="product-header">
+          <h2 className="page-title">Plant Shop</h2>
+          <div className="cart-badge" aria-live="polite">
+            <span className="cart-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" role="img" aria-hidden="true">
+                <path
+                  d="M7 6h14l-2 8H8L6 3H3"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="1.5"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                />
+                <circle cx="10" cy="20" r="1.5" fill="currentColor" />
+                <circle cx="18" cy="20" r="1.5" fill="currentColor" />
+              </svg>
+            </span>
+            <span className="cart-count">{totalItems}</span>
+          </div>
+        </div>
         {categoryOrder.map((category) => {
           const plants = plantData.filter((plant) => plant.category === category)
           return (

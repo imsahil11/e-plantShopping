@@ -3,16 +3,19 @@ import { useDispatch, useSelector } from 'react-redux'
 import Navbar from '../components/Navbar'
 import { removeItem, updateQuantity } from '../store/CartSlice'
 
+const calculateTotalItems = (list) =>
+  list.reduce((sum, item) => sum + item.quantity, 0)
+
+const calculateTotalAmount = (list) =>
+  list.reduce((sum, item) => sum + item.price * item.quantity, 0)
+
 function CartItem() {
   const dispatch = useDispatch()
   const items = useSelector((state) => state.cart.items)
 
   // Simple totals for the header
-  const totalItems = items.reduce((sum, item) => sum + item.quantity, 0)
-  const totalCost = items.reduce(
-    (sum, item) => sum + item.price * item.quantity,
-    0,
-  )
+  const totalItems = calculateTotalItems(items)
+  const totalCost = calculateTotalAmount(items)
 
   return (
     <div>
